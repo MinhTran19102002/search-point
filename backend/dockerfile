@@ -47,7 +47,8 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     supervisor \
-    && docker-php-ext-install pdo_mysql gd
+    && docker-php-ext-install pdo_pgsql gd
+
 
 # Cài đặt Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
