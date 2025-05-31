@@ -12,12 +12,17 @@
 # COPY --from=builderFE /app1/build /usr/share/nginx/html
 
 
-FROM node:22
-WORKDIR /app1
+# Stage 1: build Next.js
+FROM node:18 AS builder
+WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install
 COPY . .
 RUN yarn build
 
+# Stage 2: production image
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app ./
 EXPOSE 3000
-CMD ["yarn", "start"]  # hoặc "next", "start"
+CMD ["yarn", "start"]

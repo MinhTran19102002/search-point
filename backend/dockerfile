@@ -1,58 +1,84 @@
-# Base image có PHP và FPM
+# # Base image có PHP và FPM
+# FROM php:8.2-fpm
+
+# # Cài đặt các package cần thiết
+# RUN apt-get update && apt-get install -y \
+#     unzip \
+#     curl \
+#     git \
+#     libpng-dev \
+#     libjpeg62-turbo-dev \
+#     libfreetype6-dev \
+#     libpq-dev \
+#     && docker-php-ext-configure gd --with-freetype --with-jpeg \
+#     && docker-php-ext-install -j$(nproc) gd pdo pdo_pgsql \
+#     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# # Cài composer
+# RUN curl -sS https://getcomposer.org/installer | php \
+#     && mv composer.phar /usr/local/bin/composer
+
+# # Thiết lập thư mục làm việc
+# WORKDIR /var/www
+
+# # Copy mã nguồn vào container
+# COPY . .
+
+# # Cài đặt Laravel dependencies
+# RUN composer install --no-dev --optimize-autoloader
+
+# # Thiết lập quyền
+# RUN chown -R www-data:www-data storage bootstrap/cache
+
+# # Expose port Laravel sẽ dùng
+# EXPOSE 8080
+
+# # Start Laravel server
+# CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+
+
+# Chay tren docker may
+
+
+
+
 FROM php:8.2-fpm
 
-# Cài đặt các package cần thiết
+# Cài đặt các extension PHP cần thiết
 RUN apt-get update && apt-get install -y \
-    unzip \
-    curl \
-    git \
     libpng-dev \
-    libjpeg62-turbo-dev \
+    libjpeg-dev \
     libfreetype6-dev \
     libpq-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd pdo pdo_pgsql \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    zip \
+    unzip \
+    git \
+    curl \
+    supervisor \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
 
-# Cài composer
-RUN curl -sS https://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer
 
-# Thiết lập thư mục làm việc
-WORKDIR /var/www
+# Cài đặt Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy mã nguồn vào container
+# Thiết lập thư mục làm việc cho Laravel
+WORKDIR /var/www/html
+
+# Copy mã nguồn Laravel vào container
 COPY . .
 
-# Cài đặt Laravel dependencies
+# Copy file cấu hình Supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Cài đặt các dependencies của Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Thiết lập quyền
-RUN chown -R www-data:www-data storage bootstrap/cache
+# Phân quyền thư mục storage & bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port Laravel sẽ dùng
-EXPOSE 8080
+# Expose port ứng dụng Laravel
+EXPOSE 8000
 
-# Start Laravel server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
-
-
-
-
-# # Sử dụng image PHP chính thức có Apache
-# FROM php:8.1-apache
-
-# # Cài đặt các extension PHP cần thiết (ví dụ mysqli, pdo_mysql)
-# RUN docker-php-ext-install mysqli pdo pdo_mysql
-
-# # Copy mã nguồn ứng dụng vào thư mục web root của Apache
-# COPY ./src/ /var/www/html/
-
-# # Thiết lập quyền (nếu cần)
-# RUN chown -R www-data:www-data /var/www/html
-
-# # Expose port 80 (mặc định Apache chạy port này)
-# EXPOSE 80
-
-# # Command mặc định (Apache đã được setup trong image)
-# CMD ["apache2-foreground"]
+# Khởi động Supervisor để quản lý Laravel
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

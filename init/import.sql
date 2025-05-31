@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS diem_thi (
+CREATE TABLE IF NOT EXISTS points (
   sbd TEXT,
   toan FLOAT,
   ngu_van FLOAT,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS diem_thi (
   ma_ngoai_ngu TEXT
 );
 
-COPY diem_thi(sbd, toan, ngu_van, ngoai_ngu, vat_li, hoa_hoc, sinh_hoc, lich_su, dia_li, gdcd, ma_ngoai_ngu)
+COPY points(sbd, toan, ngu_van, ngoai_ngu, vat_li, hoa_hoc, sinh_hoc, lich_su, dia_li, gdcd, ma_ngoai_ngu)
 FROM '/docker-entrypoint-initdb.d/diem_thi_thpt_2024.csv'
 DELIMITER ','
 CSV HEADER;

@@ -13,7 +13,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: md5
       POSTGRES_INITDB_ARGS: "--auth-host=md5"
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d
@@ -30,30 +30,32 @@ services:
     networks:
       - db
     ports:
-      - 8000:8000
+      - 8000:8000  # 8000 máy thật => 80 trong container Apache
     environment:
-      - DB_HOST=postgres  # Tên service = hostname
-      - DB_PORT=5432
-      - DB_NAME=user_manager
-      - DB_USER=root
-      - DB_PASSWORD=1234
+      DB_HOST: postgres-db
+      DB_PORT: 5431
+      DB_NAME: user_manager
+      DB_USER: root
+      DB_PASSWORD: 1234
     expose:
       - 8000
     depends_on:
       - postgres
 
-  # frontend:
-  #   container_name: frontend
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   ports:
-  #     - 3000:3000
-  #   networks:
-  #     - db
-  #   depends_on:
-  #     - backend
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      NEXT_PUBLIC_BACKEND: http://127.0.0.1:8000/api
+    ports:
+      - 3000:3000
+    networks:
+      - db
+    depends_on:
+      - backend
 
 networks:
   db:
