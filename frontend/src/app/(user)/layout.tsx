@@ -8,23 +8,21 @@ import { UserContextProvider } from "@/provider/user.context"
 const UserLayout = async ({ children }: { children: React.ReactNode }) => {
     return (
         <UserContextProvider>
-            <div style={{ display: "flex", width: "100%" }}>
-                <div className='left-side sticky top-0 h-screen overflow-auto'>
+            <div className="flex flex-row w-full">
+                {/* Sidebar - hiển thị trên md trở lên */}
+                <div className="top-0 h-screen sticky   bg-gray-100 z-1000">
                     <Sider />
                 </div>
-                <div className='right-side'
-                    style={{
-                        minHeight: '100vh',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        flexGrow: 1
-                    }}>
+
+                {/* Main Content */}
+                <div className="flex flex-col flex-grow min-h-screen">
                     <Header />
                     <Contents>
                         {children}
                     </Contents>
                 </div>
             </div>
+
         </UserContextProvider>
     )
 }

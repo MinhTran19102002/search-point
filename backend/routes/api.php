@@ -5,6 +5,8 @@ use App\Http\Controllers\PointController;
 
 Route::get('/diem-thi/{sbd}', [PointController::class, 'findBySbd']);
 
+Route::get('/', [PointController::class, 'findBySbd']);
+
 
 Route::post('/thong-ke', [PointController::class, 'getScoreStatistics']);
 

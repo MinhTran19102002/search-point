@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 class PointController extends Controller
 {
     //
+    public function test()
+    {
+        return 'fdfasfas';
+    }
+
     public function findBySbd($sbd)
     {
         $point = Point::where('sbd', $sbd)->first();

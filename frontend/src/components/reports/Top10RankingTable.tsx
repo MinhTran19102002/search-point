@@ -71,7 +71,7 @@ const Top10RankingTable = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
+        <div className="w-full mx-auto p-6 bg-gray-50 flex flex-col justify-center items-center ">
             {/* Header */}
             <div className="mb-8 text-center">
                 <h1 className="text-4xl font-bold text-gray-800 mb-2">
@@ -111,7 +111,8 @@ const Top10RankingTable = () => {
             </div>
 
             {/* Bảng xếp hạng */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden w-11/12">
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-2xl sm:max-w-2xl md:max-w-2xl lg:max-w-3xl xl:max-w-6xl mx-auto">
+
                 {loading ? (
                     <div className="flex items-center justify-center py-12">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
@@ -120,8 +121,8 @@ const Top10RankingTable = () => {
                 ) : (
                     <div className="overflow-x-auto relative">
                         <table className="w-full">
-                            <thead className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-                                <tr>
+                            <thead className="bg-gradient-to-r from-blue-600 to-blue-700 text-white ">
+                                <tr className='relative'>
                                     <th className="px-6 py-4 text-left font-semibold">Hạng</th>
                                     <th className="px-6 py-4 text-left font-semibold">SBD</th>
                                     <th className="px-6 py-4 text-center font-semibold">Toán</th>
@@ -133,7 +134,7 @@ const Top10RankingTable = () => {
                                     <th className="px-6 py-4 text-center font-semibold">Lịch Sử</th>
                                     <th className="px-6 py-4 text-center font-semibold">Địa Lí</th>
                                     <th className="px-6 py-4 text-center font-semibold">GDCD</th>
-                                    <th className="sticky right-0 z-10 px-6 py-4 text-center font-semibold bg-gradient-to-r from-orange-500 to-red-500">
+                                    <th className="sticky right-0 z-0 px-6 py-4 text-center font-semibold bg-gradient-to-r from-orange-500 to-red-500">
                                         Tổng Điểm
                                     </th>
                                 </tr>
@@ -142,7 +143,7 @@ const Top10RankingTable = () => {
                                 {data.map((student, index) => (
                                     <tr
                                         key={student.sbd}
-                                        className={`${getRankRowClass(index + 1)} transition-all duration-200`}
+                                        className={`${getRankRowClass(index + 1)} transition-all duration-200 relative`}
                                     >
                                         <td className="px-6 py-4 font-medium">
                                             <div className="flex items-center gap-2">
@@ -160,8 +161,8 @@ const Top10RankingTable = () => {
                                         <td className="px-6 py-4 text-center font-semibold">{student.lich_su}</td>
                                         <td className="px-6 py-4 text-center font-semibold">{student.dia_li}</td>
                                         <td className="px-6 py-4 text-center font-semibold">{student.gdcd}</td>
-                                        <td className="px-6 py-4 text-center">
-                                            <span className="sticky right-0 z-10 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full font-bold text-lg">
+                                        <td className="px-6 py-4 text-center sticky right-0 z-1">
+                                            <span className=" bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full font-bold text-lg">
                                                 {student.tong_diem}
                                             </span>
                                         </td>

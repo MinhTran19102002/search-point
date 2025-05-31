@@ -48,18 +48,20 @@ const DashboardLayout = () => {
                 <div className="">
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
                 </div>
-                <div className="flex flex-row bg-white rounded-xl shadow-sm p-6">
-                    <div className="basis-2/3">
+                <div className="flex flex-col lg:flex-row bg-white rounded-xl shadow-sm p-6">
+                    <div className="lg:basis-2/3">
                         {/* Subject Filter */}
-                        <SubjectFilter onSetData={(data: string) => { setSelectedSubject(data) }} selectedSubject={selectedSubject} />
+                        <SubjectFilter onSetData={(data: string) => setSelectedSubject(data)} selectedSubject={selectedSubject} />
 
                         {/* Stats Cards */}
-                        <StatsCard stats={stats} /></div>
-                    <div className="basis-1/3">
-                        {/* biểu đồ tròn */}
+                        <StatsCard stats={stats} />
+                    </div>
+                    <div className="lg:basis-1/3 h-70">
+                        {/* Biểu đồ tròn */}
                         <GradePieChart stats={stats} />
                     </div>
                 </div>
+
                 {/* Tier Explanation */}
                 <div className=" bg-white rounded-xl shadow-sm p-6">
                     <TierExplanation />

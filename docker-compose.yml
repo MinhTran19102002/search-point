@@ -1,22 +1,25 @@
-# version: '3.4'
+version: '3.4'
 
 services:
 
-  # mysql:
-  #   image: mysql:8.0
-  #   container_name: mysql-db
-  #   restart: unless-stopped
-  #   environment:
-  #     DB_PASSWORD: 1234  
-  #     DB_DATABASE: user-manager
-  #     DB_HOST: mysql
-  #   ports:
-  #     - "3306:3306"
-  #   networks:
-  #     - db
-  #   volumes:
-  #     - mysql_data:/var/lib/mysql
-  #     - ./sql-dump:/docker-entrypoint-initdb.d
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: user_manager
+      POSTGRES_HOST_AUTH_METHOD: md5
+      POSTGRES_INITDB_ARGS: "--auth-host=md5"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - db
+
 
   backend:
     container_name: backend
@@ -29,27 +32,32 @@ services:
     ports:
       - 8000:8000
     environment:
-      - DB_HOST:127.0.0.1
+      - DB_HOST=postgres  # Tên service = hostname
+      - DB_PORT=5432
+      - DB_NAME=user_manager
+      - DB_USER=root
+      - DB_PASSWORD=1234
     expose:
       - 8000
     depends_on:
-      # - mysql
+      - postgres
 
-  frontend:
-    container_name: frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - 5173:5173
-    networks:
-      - db
-    depends_on:
-      - backend
+  # frontend:
+  #   container_name: frontend
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - db
+  #   depends_on:
+  #     - backend
 
 networks:
   db:
     driver: bridge
-# volumes:
-#   mysql_data:  # 🔥 Định nghĩa volume để tránh lỗi
+
+volumes:
+  postgres_data:

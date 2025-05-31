@@ -5,7 +5,10 @@ import Top10RankingTable from './Top10RankingTable';
 
 const ReportPage = () => {
     return (
-        <Top10RankingTable />
+        <div className="w-full flex flex-col items-center gap-2">
+            <Top10RankingTable />
+        </div>
+
     )
 };
 
