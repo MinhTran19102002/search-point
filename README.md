@@ -63,7 +63,6 @@ Make sure you have the following installed:
 
 ## 🐳 Docker Configuration
 ![alt text](img/image.png)
-The project uses Docker Compose for easy development and deployment setup. The configuration includes:
 
 ## 📁 Project Structure
 

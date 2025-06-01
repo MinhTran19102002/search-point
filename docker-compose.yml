@@ -33,7 +33,7 @@ services:
       - 8000:8000  # 8000 máy thật => 80 trong container Apache
     environment:
       DB_HOST: postgres-db
-      DB_PORT: 5431
+      DB_PORT: 5432
       DB_NAME: user_manager
       DB_USER: root
       DB_PASSWORD: 1234
@@ -48,8 +48,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     restart: always
-    environment:
-      NEXT_PUBLIC_BACKEND: http://127.0.0.1:8000/api
+    # environment:
+    #   NEXT_PUBLIC_BACKEND: http://localhost:8000/api
     ports:
       - 3000:3000
     networks:

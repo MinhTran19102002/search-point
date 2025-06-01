@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { getPoint } from "@/utils/action/point.action";
 import { AlertCircle, CreditCard, Send, User } from "lucide-react";
+import { notification } from "antd";
+import { sendRequest } from "@/utils/api";
 
 
 const SearchPoint = (props: any) => {
@@ -14,17 +16,18 @@ const SearchPoint = (props: any) => {
         onLoading(true)
         try {
             const res = await getPoint(data.registrationg_number)
-
+            console.log(res)
             if (res?.error) {
-                // 
+                onSendData(null)
                 return
             }
             if (res?.data) {
-                // return res?.data?.data
                 onSendData(res?.data)
+                return
             }
+            return
         } catch (error) {
-
+            console.log(error)
 
         } finally {
             // await delay(10000);

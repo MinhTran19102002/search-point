@@ -48,7 +48,7 @@ const DetailedScores = (props: Props) => {
                         <div>Mã ngoại ngữ: {point.ma_ngoai_ngu}</div>
                     </div>
                 ) : (
-                    <div className="text-gray-500">Detailed view of search scores here!</div>
+                    <div className="text-gray-500">No data available!</div>
                 )}
             </div>
         </div>

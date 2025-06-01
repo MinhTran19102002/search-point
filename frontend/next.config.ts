@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
 };
 module.exports = {
+  // output: 'standalone',
   async redirects() {
     return [
       {

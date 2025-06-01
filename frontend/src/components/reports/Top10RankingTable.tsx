@@ -111,7 +111,7 @@ const Top10RankingTable = () => {
             </div>
 
             {/* Bảng xếp hạng */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-2xl sm:max-w-2xl md:max-w-2xl lg:max-w-3xl xl:max-w-6xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-[300px] sm:max-w-[550px] md:max-w-[650px] lg:max-w-3xl xl:max-w-6xl mx-auto">
 
                 {loading ? (
                     <div className="flex items-center justify-center py-12">
