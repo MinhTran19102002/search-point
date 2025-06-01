@@ -21,7 +21,10 @@ const SearchPoint = (props: any) => {
                 onSendData(null)
                 return
             }
-
+            if (res?.data) {
+                onSendData(res?.data)
+                return
+            }
             return
         } catch (error) {
             console.log(error)
