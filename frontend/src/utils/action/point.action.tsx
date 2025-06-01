@@ -6,8 +6,8 @@ export async function getPoint(sbd: string) {
     try {
         const r = await sendRequest<IBackendRes<IPoint>>({
             method: "GET",
-            // url: `${process.env.NEXT_PUBLIC_BACKEND}/diem-thi`,
-            url: `http://localhost:8000/api/diem-thi`,
+            url: `${process.env.NEXT_PUBLIC_BACKEND}/diem-thi`,
+            // url: `http://localhost:8000/api/diem-thi`,
             param: sbd
         })
         return r
